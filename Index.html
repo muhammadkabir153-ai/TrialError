@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kayan Miya — Sales & Debtors</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="app-header">
+    <h1>Kayan Miya — Sales & Debtors</h1>
+    <div class="header-actions">
+      <button id="backupBtn" title="Download JSON backup">📥 Backup</button>
+      <button id="restoreBtn" title="Restore from JSON file">📤 Restore</button>
+    </div>
+  </header>
+
+  <nav class="tabs">
+    <button class="tab-btn active" data-tab="tab-sales">Sales</button>
+    <button class="tab-btn" data-tab="tab-debtors">Debtors</button>
+    <button class="tab-btn" data-tab="tab-due">Due Debtors</button>
+  </nav>
+
+  <!-- SALES TAB -->
+  <section id="tab-sales" class="tab active">
+    <div class="card">
+      <h2>Sales by Date</h2>
+      <div class="row">
+        <input type="date" id="salesDate" />
+        <button id="openSalesBtn">Open Date</button>
+        <span id="currentDateLabel" class="muted"></span>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <h3>Add Item</h3>
+        <form id="itemForm" class="form-grid">
+          <input type="text" id="itemName" placeholder="Item name (e.g., Attaruhu)" required />
+          <input type="number" id="itemCost" placeholder="Purchase cost (₦)" required />
+          <input type="number" id="portionPrice" placeholder="Portion price (₦)" required />
+          <button type="submit">Add Item</button>
+        </form>
+      </div>
+
+      <div class="card">
+        <h3>Today’s Sales</h3>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Item</th>
+                <th>Cost (₦)</th>
+                <th>Portion (₦)</th>
+                <th>Sold</th>
+                <th>Profit (₦)</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="salesTable"></tbody>
+          </table>
+        </div>
+        <div class="row spread">
+          <strong>Total Profit:</strong>
+          <strong id="totalProfit">0</strong>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DEBTORS TAB -->
+  <section id="tab-debtors" class="tab">
+    <div class="grid">
+      <div class="card">
+        <h3>Add Debtor</h3>
+        <form id="debtorForm" class="form-grid">
+          <input type="text" id="debtorName" placeholder="Name" required />
+          <input type="text" id="debtorItem" placeholder="Item taken" required />
+          <input type="number" id="debtorAmount" placeholder="Amount (₦)" required />
+          <input type="date" id="debtorDue" required />
+          <button type="submit">Add Debtor</button>
+        </form>
+      </div>
+
+      <div class="card">
+        <h3>Debtors (for current date)</h3>
+        <ul id="debtorList" class="list"></ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- DUE DEBTORS TAB -->
+  <section id="tab-due" class="tab">
+    <div class="card">
+      <h3>Due Debtors</h3>
+      <input id="debtorSearch" type="text" placeholder="Search by name or date…" />
+      <div id="dueDebtorsList" class="list"></div>
+    </div>
+  </section>
+
+  <script src="app.js"></script>
+  <script>
+    // PWA: register service worker (works on GitHub Pages/repo pages as well)
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./service-worker.js');
+      });
+    }
+  </script>
+</body>
+</html>
